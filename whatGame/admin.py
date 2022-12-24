@@ -3,7 +3,7 @@ from django.apps import apps
 from .models import Ticket
 
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ('date','timee')
+    list_display = ('date','timee','nameGame')
 
 # model registered with custom admin
 admin.site.register(Ticket, TicketAdmin)

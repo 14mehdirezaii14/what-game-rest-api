@@ -3,6 +3,7 @@ from rest_framework import routers
 from scapeRoom.quickstart import views
 from django.contrib import admin
 from whatGame.views import TicketView
+from whatGame.views import send_request
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
@@ -13,5 +14,6 @@ router.register(r'groups', views.GroupViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('ticket/', TicketView)
+    path('ticket/', TicketView),
+    path('request/', send_request, name='request'),
 ]

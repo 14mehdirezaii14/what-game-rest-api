@@ -4,10 +4,12 @@ from django.db import models
 
 
 class Ticket(models.Model):
-    date = models.TextField(max_length=140, blank=False,null=False)
-    timee = models.TextField(max_length=140, blank=False,null=False)
-    numberOfPersons = models.TextField(max_length=140, blank=False,null=False)
-    name = models.TextField(max_length=140, blank=False,null=False)
-    lastName = models.TextField(max_length=140, blank=False,null=False)
-    email = models.TextField(max_length=140, blank=False,null=False)
-    phone = models.TextField(max_length=140, blank=False,null=False)
+    nameGame = models.TextField(max_length=140, blank=False, null=False)
+    date = models.TextField(max_length=140, blank=False, null=False)
+    timee = models.TextField(max_length=140, blank=False, null=False)
+    numberOfPersons = models.TextField(max_length=140, blank=False, null=False)
+    name = models.TextField(max_length=140, blank=False, null=False)
+    lastName = models.TextField(max_length=140, blank=False, null=False)
+    email = models.TextField(max_length=140, blank=False, null=False)
+    phone = models.TextField(max_length=140, blank=False, null=False)
+    price = models.TextField(max_length=140, blank=False, null=False)
