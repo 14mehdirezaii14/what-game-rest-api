@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from whatGame.models import Ticket
+from whatGame.models import EscapeRoom
+from whatGame.models import disableDate
 from whatGame.serializers import TicketSerializer
+from whatGame.serializers import EscapeRoomSerializer
+from whatGame.serializers import disableDateSerializer
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
@@ -13,6 +17,21 @@ import json
 
 
 @csrf_exempt
+def EscapeRoomView(request):
+    if request.method == 'GET':
+        snippets = EscapeRoom.objects.all()
+        serializer = EscapeRoomSerializer(snippets, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+
+def getDisableDate(request):
+    if request.method == 'GET':
+        snippets = disableDate.objects.all()
+        serializer = disableDateSerializer(snippets, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+
+@csrf_exempt
 def TicketView(request):
     if request.method == 'GET':
         snippets = Ticket.objects.all()
@@ -21,15 +40,19 @@ def TicketView(request):
 
     elif request.method == 'POST':
         dataa = request.POST
-        print('log <><><><><>', dataa)
         serializer = TicketSerializer(data=dataa)
-        print(serializer)
-        if serializer.is_valid():
+        # 
+        if Ticket.objects.filter(date=dataa["date"]).__len__() >= 7:
+            disableDate.objects.create(date=dataa["date"])
+            return JsonResponse({"err": "در این تاریخ تمامی سانس ها رزرو شده"}, status=400)
+        # 
+        elif serializer.is_valid():
             serializer.save()
+            print('log <><><><><>', Ticket.objects.filter(
+                date=dataa["date"]).__len__())
             return JsonResponse({"data": "ok"}, status=201)
-        return JsonResponse(serializer.errors, status=400)
-    
-
+        else:
+            return JsonResponse(serializer.errors, status=400)
 
 
 # class TicketView(APIView):
@@ -44,7 +67,6 @@ def TicketView(request):
 #             serializer.save()
 #             return JsonResponse({"data": "ok"}, status=201)
 #         return JsonResponse(serializer.errors, status=400)
-
 
 
 MERCHANT = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
@@ -71,7 +93,7 @@ def send_request(request):
                   "content-type": "application/json'"}
     req = requests.post(url=ZP_API_REQUEST, data=json.dumps(
         req_data), headers=req_header)
-    print('log <><><><><>',req.json())
+    print('log <><><><><>', req.json())
     authority = req.json()['data']['authority']
     if len(req.json()['errors']) == 0:
         return redirect(ZP_API_STARTPAY.format(authority=authority))
@@ -92,7 +114,8 @@ def verify(request):
             "amount": amount,
             "authority": t_authority
         }
-        req = requests.post(url=ZP_API_VERIFY, data=json.dumps(req_data), headers=req_header)
+        req = requests.post(url=ZP_API_VERIFY, data=json.dumps(
+            req_data), headers=req_header)
         if len(req.json()['errors']) == 0:
             t_status = req.json()['data']['code']
             if t_status == 100:
