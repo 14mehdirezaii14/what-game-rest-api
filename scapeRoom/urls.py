@@ -18,7 +18,7 @@ router.register(r'groups', views.GroupViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('ticket/', TicketView),
+    path(r'ticket/', TicketView),
     path('EscapeRoomGet/', EscapeRoomView),
     path('getDisableDate/', getDisableDate),
 ]

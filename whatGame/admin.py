@@ -9,8 +9,8 @@ class TicketAdmin(admin.ModelAdmin):
     list_display = ('date', 'timee', 'nameGame')
 
 
-class EscapeRoomAmin(admin.ModelAdmin):
-    list_display = ('name',)
+class EscapeRoomAdmin(admin.ModelAdmin):
+    list_display = ('name','id')
 
 
 class disableDateAmin(admin.ModelAdmin):
@@ -19,7 +19,7 @@ class disableDateAmin(admin.ModelAdmin):
 
 # model registered with custom admin
 admin.site.register(Ticket, TicketAdmin)
-admin.site.register(EscapeRoom, EscapeRoomAmin)
+admin.site.register(EscapeRoom, EscapeRoomAdmin)
 admin.site.register(disableDate,disableDateAmin)
 
 # all other models
