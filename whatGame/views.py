@@ -53,10 +53,12 @@ def TicketView(request):
         if Ticket.objects.filter(date=dataa["date"]).__len__() >= 7:
             return JsonResponse({"err": "در این تاریخ تمامی سانس ها رزرو شده"}, status=400)
         if Ticket.objects.filter(date=dataa["date"]).__len__() >= 6:
-            disableDate.objects.create(date=dataa["date"])
+            instanceEscapeRoom = EscapeRoom.objects.get(
+                id=dataa["idGame"])
+            disableDate.objects.create(
+                idGame=instanceEscapeRoom, date=dataa["date"])
             if serializer.is_valid():
                 serializer.save()
-            print('log <><><><><>', request)
             return JsonResponse({'data': 'ok'}, status=201)
 
         #
