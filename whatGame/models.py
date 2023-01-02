@@ -19,11 +19,19 @@ class EscapeRoom(models.Model):
         max_length=30, blank=False, null=False)
     age = models.CharField(max_length=30, blank=False, null=False)
     price = models.CharField(max_length=30, blank=False, null=False)
+    priceSans1 = models.CharField(max_length=30, blank=False, null=False)
+    priceSans2 = models.CharField(max_length=30, blank=False, null=False)
+    priceSans3 = models.CharField(max_length=30, blank=False, null=False)
+    priceSans4 = models.CharField(max_length=30, blank=False, null=False)
+    priceSans5 = models.CharField(max_length=30, blank=False, null=False)
+    priceSans6 = models.CharField(max_length=30, blank=False, null=False)
+    priceSans7 = models.CharField(max_length=30, blank=False, null=False)
     scenario = models.TextField(max_length=540, blank=False, null=False)
     gameTips = models.TextField(max_length=540, blank=False, null=False)
     viewMoreGameTips = models.TextField(
         max_length=540, blank=False, null=False)
     img = models.ImageField(upload_to=upload_to, blank=True, null=True)
+    
 
 
 class disableDate(models.Model):
