@@ -35,14 +35,43 @@ def getDisableDate(request):
 @csrf_exempt
 def TicketView(request):
     if request.method == 'GET':
-        print(request)
         snippets = Ticket.objects.filter(date=request.GET.get(
             'date'), idGame=request.GET.get('idGame'))
-        print('<><><><><><>', snippets)
-        print('<><><><><><>', request.GET.get('date'))
-        print('<><><><><><>', request.GET.get('idGame'))
-        serializer = TicketSerializer(snippets, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        listTime = [{
+    "time": 'ساعت 11',
+    "disable": False
+},
+{
+    "time": 'ساعت 13',
+    "disable": False
+},
+{
+"time": 'ساعت 15',
+   "disable": False
+},
+{
+"time": 'ساعت 17',
+   "disable": False
+},
+{
+"time": 'ساعت 19',
+   "disable": False
+},
+{
+    "time": 'ساعت 21',
+    "disable": False
+},
+{
+    "time": 'ساعت 23',
+    "disable": False
+},
+]
+        # DIABLE SANS
+        for ticket in snippets:
+            for time in listTime:
+                if time['time'] == ticket.timee:
+                    time['disable'] = True 
+        return JsonResponse(listTime, safe=False)
 
     elif request.method == 'POST':
         dataa = request.POST
